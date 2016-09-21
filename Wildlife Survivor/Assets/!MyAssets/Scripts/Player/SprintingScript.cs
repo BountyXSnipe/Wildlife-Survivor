@@ -75,7 +75,7 @@ public class SprintingScript : MonoBehaviour {
                 //Start running at the cost of using up stamina
                 if (pStatus.hunger < 100)
                 pStatus.hunger -= (pStatus.hungerDrainRate * 4) * Time.deltaTime;
-                pStatus.thirst -= (pStatus.thirstDrainRate * 3) * Time.deltaTime;
+                pStatus.thirst -= (pStatus.thirstDrainRate * 2.5f) * Time.deltaTime;
                 stamina -= sprintLoss * Time.deltaTime;
 
                 if (fpsController.Grounded == true)
