@@ -42,7 +42,7 @@ public class TextScreenManager : MonoBehaviour {
 
     IEnumerator WaitBeforeFading()
     {
-        yield return new WaitForSeconds(8);
+        yield return new WaitForSeconds(12);
         startFading = true;
     }
 }
