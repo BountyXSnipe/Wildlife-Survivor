@@ -73,10 +73,13 @@ public class SprintingScript : MonoBehaviour {
             if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
             {
                 //Start running at the cost of using up stamina
-                if (pStatus.hunger < 100)
+                //if (pStatus.hunger < 100)
                 pStatus.hunger -= (pStatus.hungerDrainRate * 4) * Time.deltaTime;
                 pStatus.thirst -= (pStatus.thirstDrainRate * 2.5f) * Time.deltaTime;
-                stamina -= sprintLoss * Time.deltaTime;
+
+                //Only drain stamina while running on the ground
+                if (fpsController.Grounded == true)
+                    stamina -= sprintLoss * Time.deltaTime;
 
                 if (fpsController.Grounded == true)
                 {

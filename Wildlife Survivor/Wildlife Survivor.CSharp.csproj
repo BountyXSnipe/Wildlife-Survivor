@@ -81,6 +81,8 @@
     <Compile Include="Assets\!MyAssets\Scripts\InGameDiffChanger.cs" />
     <Compile Include="Assets\!MyAssets\Scripts\LeafBedScript.cs" />
     <Compile Include="Assets\!MyAssets\Scripts\MenuScript.cs" />
+    <Compile Include="Assets\!MyAssets\Scripts\OptionsScript.cs" />
+    <Compile Include="Assets\!MyAssets\Scripts\PauseScript.cs" />
     <Compile Include="Assets\!MyAssets\Scripts\Player\InteractionScript.cs" />
     <Compile Include="Assets\!MyAssets\Scripts\Player\PlayerStatus.cs" />
     <Compile Include="Assets\!MyAssets\Scripts\Player\SprintingScript.cs" />
