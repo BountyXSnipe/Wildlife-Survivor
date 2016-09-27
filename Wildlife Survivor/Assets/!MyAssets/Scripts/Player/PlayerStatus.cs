@@ -23,7 +23,6 @@ public class PlayerStatus : MonoBehaviour {
     public float thirstDrainRate = 0.5f;
     public bool infiniteHealth = false;
 
-
     public Slider hpBar;
     public Slider thirstBar;
     public Slider hungerBar;
@@ -91,14 +90,7 @@ public class PlayerStatus : MonoBehaviour {
             GameOver();
         }
 
-        /*
-        if (hunger >= 100 && firstTimeTextShow == false)
-        {
-            hungerFullText.alpha = 1;
-            firstTimeTextShow = true;
-        }
-        */
-        //Overtime, heal
+        //Heal overtime
         if (health > 0 && health < maxHealth)
             health += healthRegenRate * Time.deltaTime;
         if (health > maxHealth || infiniteHealth == true)
@@ -183,12 +175,12 @@ public class PlayerStatus : MonoBehaviour {
             hitScreen.alpha -= 0.75f * Time.deltaTime;
         }
 
-        if (health <= 50 && health != 0)
+        if (health <= 75 && health != 0)
         {
-            bloodScreen.alpha = 1 -(health / 50);
-            heartBeatSFX.volume = 1 - (health / 50);
+            bloodScreen.alpha = 1 -(health / 75);
+            heartBeatSFX.volume = 1 - (health / 75);
         }
-        else if (health > 50)
+        else if (health > 75)
         {
             bloodScreen.alpha = 0;
             heartBeatSFX.volume = 0;
