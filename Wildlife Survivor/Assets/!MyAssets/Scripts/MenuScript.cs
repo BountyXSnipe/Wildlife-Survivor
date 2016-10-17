@@ -105,8 +105,10 @@ public class MenuScript : MonoBehaviour {
             customDiffRay.enabled = false;
     }
 
-    public void PlayGame()
+    public void PlayGame(string _difficulty)
     {
+        //Set the difficulty based on the selected setting.
+        DifficultyModifier.difficulty = _difficulty;
         SceneManager.LoadScene("Main Level");
         PlayerStatus.bunniesSaved = 0;
     }

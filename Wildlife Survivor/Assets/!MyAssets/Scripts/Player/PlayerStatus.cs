@@ -15,7 +15,7 @@ public class PlayerStatus : MonoBehaviour {
     public float hunger = 30;
     public float thirst = 100;
     public float health = 100;
-    private float maxHealth = 100;
+    public float maxHealth = 100;
     private float lastHealth = 100;
     public float hurtTimer = 0;
     public float healthRegenRate = 0.1f;
@@ -175,12 +175,12 @@ public class PlayerStatus : MonoBehaviour {
             hitScreen.alpha -= 0.75f * Time.deltaTime;
         }
 
-        if (health <= 75 && health != 0)
+        if (health <= (maxHealth * 0.75f) && health != 0) //if less than 75% of the player's max HP
         {
-            bloodScreen.alpha = 1 -(health / 75);
-            heartBeatSFX.volume = 1 - (health / 75);
+            bloodScreen.alpha = 1 -(health / (maxHealth * 0.75f));
+            heartBeatSFX.volume = 1 - (health / (maxHealth * 0.75f));
         }
-        else if (health > 75)
+        else if (health > (maxHealth * 0.75f))
         {
             bloodScreen.alpha = 0;
             heartBeatSFX.volume = 0;

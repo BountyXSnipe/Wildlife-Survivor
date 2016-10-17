@@ -9,6 +9,7 @@ public class BunnyCompass : MonoBehaviour {
     private int arrayCounter = 0; //starts at 0, then goes up for each bunny saved until it reaches the max num of bunnies saved
     private Transform compassTarget; //The position the compass will be pointing towards
     public Transform playerTransform; //Used for retrieving the player's position
+    public GameObject bunnyMesh;
 
 	// Use this for initialization
 	void Start () {
@@ -26,11 +27,15 @@ public class BunnyCompass : MonoBehaviour {
                 arrayCounter++;
                 if (arrayCounter < numOfBunnies)
                 {
-                    
+
                     compassTarget = bunnyLocations[arrayCounter];
                 }
-                else
+                else 
+                {
+                    //point towards home and turn off the bunny mesh
                     compassTarget = homeLocation;
+                    bunnyMesh.SetActive(false);
+                }
             }
         }
         else

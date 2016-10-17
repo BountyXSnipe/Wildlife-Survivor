@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 using System.Collections;
 
 public class OptionsScript : MonoBehaviour {
@@ -8,6 +9,10 @@ public class OptionsScript : MonoBehaviour {
     private string[] qualityLevelNames; //a list of quality level names to be converted into text
 
     public UnityStandardAssets.Characters.FirstPerson.RigidbodyFirstPersonController playerController;
+
+    //These mixers control how loud certain sounds will be in the game
+    public AudioMixerGroup musicAudMix;
+    public AudioMixerGroup sfxAudMix;
 
     //Text
     public Text mouseSensText;
@@ -92,7 +97,7 @@ public class OptionsScript : MonoBehaviour {
     {
         AudioListener.volume += volChange;
 
-        //Clamp the values to prevent the audiolistener from getting negative volume or exceeding extremely loud volume
+        //Clamp the values to prevent the audiolistener from getting negative volume or exceeding extremely loud volumet
         if (AudioListener.volume < 0)
             AudioListener.volume = 0;
         else if (AudioListener.volume > 2)

@@ -56,11 +56,66 @@ public class DifficultyModifier : MonoBehaviour {
     void Start () {
 	
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
+    // Update is called once per frame
+    void Update()
+    {
+        //Disable any toggle options that are opposite from the ones that are turned on. eg. "infinite health" vs "die in one hit"
+        //Infinite health
+        if (infHealthTog.isOn == true)
+            dieOneHitTog.gameObject.SetActive(false);
+        else if (dieOneHitTog.gameObject.activeSelf == false)
+            dieOneHitTog.gameObject.SetActive(true);
+
+        //No thirst
+        if (noThirstTog.isOn == true)
+            extremeThirstTog.gameObject.SetActive(false);
+        else if (extremeThirstTog.gameObject.activeSelf == false)
+            extremeThirstTog.gameObject.SetActive(true);
+
+        //No hunger
+        if (noHungerTog.isOn == true)
+            starveModeTog.gameObject.SetActive(false);
+        else if (starveModeTog.gameObject.activeSelf == false)
+            starveModeTog.gameObject.SetActive(true);
+
+        //No wolves
+        if (noWolvesTog.isOn == true)
+            moreWolvesTog.gameObject.SetActive(false);
+        else if (moreWolvesTog.gameObject.activeSelf == false)
+            moreWolvesTog.gameObject.SetActive(true);
+
+        //Daytime
+        if (daytimeTog.isOn == true)
+            noMoonTog.gameObject.SetActive(false);
+        else if (noMoonTog.gameObject.activeSelf == false)
+            noMoonTog.gameObject.SetActive(true);
+
+        //Hard mode options
+        //Extreme thirst
+        if (extremeThirstTog.isOn == true)
+            noThirstTog.gameObject.SetActive(false);
+        else if (noThirstTog.gameObject.activeSelf == false)
+            noThirstTog.gameObject.SetActive(true);
+
+        //Starvation mode
+        if (starveModeTog.isOn == true)
+            noHungerTog.gameObject.SetActive(false);
+        else if (noHungerTog.gameObject.activeSelf == false)
+            noHungerTog.gameObject.SetActive(true);
+
+        //More wolves
+        if (moreWolvesTog.isOn == true)
+            noWolvesTog.gameObject.SetActive(false);
+        else if (noWolvesTog.gameObject.activeSelf == false)
+            noWolvesTog.gameObject.SetActive(true);
+
+        //Die in one hit
+        if (dieOneHitTog.isOn == true)
+            infHealthTog.gameObject.SetActive(false);
+        else if (infHealthTog.gameObject.activeSelf == false)
+            infHealthTog.gameObject.SetActive(true);
+    }
 
     public void UpdateDifficultyChanges()
     {

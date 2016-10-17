@@ -30,19 +30,17 @@ public class LineOfSightScript : MonoBehaviour {
             {       
                 if (Physics.Linecast(npcTransform.position, c.transform.position, out hit, losLayerMask))
                 {
-                    Debug.Log("registered");
                     //If the object line of sight hits the player and not some other object
                     if (hit.transform.tag == "Player")
                     {
-                        
                         if (losType == LosType.Patrolling)
                         {
-                            
                             //Play the wolf sound if he saw us for the first time from patrolling mode
                             if (wolfAI.aiState == WolfAI.AIState.Patrolling)
                             {
                                 wolfAI.wolfSFX.clip = wolfAI.sawPlayerSFX;
                                 wolfAI.wolfSFX.Play();
+                                wolfAI.chaseMusicScript.numOfEnemiesChasing += 1;
                             }
 
                             //Make the enemy chase the player. If the player is out of sight for 5 seconds, AI stops chasing
