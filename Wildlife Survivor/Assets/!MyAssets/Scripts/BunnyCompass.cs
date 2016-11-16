@@ -8,6 +8,8 @@ public class BunnyCompass : MonoBehaviour {
     private int numOfBunnies;
     private int arrayCounter = 0; //starts at 0, then goes up for each bunny saved until it reaches the max num of bunnies saved
     private Transform compassTarget; //The position the compass will be pointing towards
+    public Transform playerTransform; //Used for retrieving the player's position
+    public GameObject bunnyMesh;
 
 	// Use this for initialization
 	void Start () {
@@ -25,11 +27,15 @@ public class BunnyCompass : MonoBehaviour {
                 arrayCounter++;
                 if (arrayCounter < numOfBunnies)
                 {
-                    
+
                     compassTarget = bunnyLocations[arrayCounter];
                 }
-                else
+                else 
+                {
+                    //point towards home and turn off the bunny mesh
                     compassTarget = homeLocation;
+                    bunnyMesh.SetActive(false);
+                }
             }
         }
         else
@@ -39,11 +45,12 @@ public class BunnyCompass : MonoBehaviour {
 
         if (compassTarget != null)
         {
-            Vector3 targetDir = compassTarget.position - transform.position;
-            float step = 15 * Time.deltaTime;
-            Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, step, 0.0F);
+            //Get the difference in Vec3 between the player's position and the targetted position
+            Vector3 targetDir = compassTarget.position - playerTransform.position;
+            float step = 15 * Time.deltaTime; //How fast the compass rotates towards the target
+            Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, step, 0.0F);  //Get the rotation value to rotate towards
             //Debug.DrawRay(transform.position, newDir, Color.red);
-            transform.rotation = Quaternion.LookRotation(newDir);
+            transform.rotation = Quaternion.LookRotation(newDir); //Rotate the compass towards the target
         }
 
 	}

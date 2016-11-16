@@ -8,6 +8,8 @@ public class InGameDiffChanger : MonoBehaviour {
     public PlayerStatus pStatus;
     public SprintingScript pSprint;
     public Light playerLight; //Light source like a flashlight to help the player see in the dark
+    public GameObject bunnyVision;
+    public Camera playerCam;
 
     //Compass Variables
     public GameObject bunnyCompass;
@@ -20,6 +22,7 @@ public class InGameDiffChanger : MonoBehaviour {
 	public Color daySkyAmbColor;
 	public Color dayEquatorAmbColor;
 	public Color dayGroundAmbColor;
+    public Color dayFogColor;
 
     //Enemy variables
     public GameObject[] wolves;
@@ -32,10 +35,62 @@ public class InGameDiffChanger : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
+        //=====
+        //Defaulting
+        //=====
         //Default the scene settings then make changes based on custom difficulty settings
         RenderSettings.skybox = nightSkybox;
         RenderSettings.fog = true;
         directionalLight.intensity = 0.1f;
+        //Extra wolves start off disabled
+        for (int i = 0; i < extraWolves.Length; ++i)
+        {
+            extraWolves[i].SetActive(false);
+        }
+
+        //========
+        //Difficulty changing/modifying
+        //========
+        //Check first if the player is in a premade difficulty mode before
+        //doing custom changes
+        if (DifficultyModifier.difficulty == "peaceful")
+        {
+            DifficultyModifier.dayTime = true;
+            DifficultyModifier.noFog = true;
+            DifficultyModifier.noWolves = true;
+            DifficultyModifier.noThirst = true;
+            DifficultyModifier.noHunger = true;
+            DifficultyModifier.noRabbitCompass = true;
+            DifficultyModifier.infiniteHealth = true;
+            DifficultyModifier.infiniteStamina = true;
+        }
+        else if (DifficultyModifier.difficulty == "easy")
+        {
+            DifficultyModifier.noFog = true;
+            DifficultyModifier.noThirst = true;
+            DifficultyModifier.noHunger = true;
+            DifficultyModifier.infiniteStamina = true;
+        }
+        else if (DifficultyModifier.difficulty == "medium")
+        {
+            DifficultyModifier.noFog = true;
+        }
+        else if (DifficultyModifier.difficulty == "hard")
+        {
+            DifficultyModifier.noMoon = true;
+            DifficultyModifier.noRabbitCompass = true;
+            DifficultyModifier.moreWolves = true;
+        }
+        else if (DifficultyModifier.difficulty == "nightmare")
+        {
+            DifficultyModifier.noMoon = true;
+            DifficultyModifier.noRabbitCompass = true;
+            DifficultyModifier.moreWolves = true;
+            DifficultyModifier.extremeThirst = true;
+            DifficultyModifier.starvationMode = true;
+            DifficultyModifier.dieInOneHit = true;
+        }
+        //Apply difficulty changes based on what is toggled on from DifficultyModifier
 
         //Upon scene load, the game changes take place based
         //on what the user set in the custom difficulty options
@@ -53,6 +108,7 @@ public class InGameDiffChanger : MonoBehaviour {
             RenderSettings.ambientSkyColor = daySkyAmbColor;
             RenderSettings.ambientEquatorColor = dayEquatorAmbColor;
             RenderSettings.ambientGroundColor = dayGroundAmbColor;
+            RenderSettings.fogColor = dayFogColor;
 
             //Turn off scary music
             music.enabled = false;
@@ -90,7 +146,27 @@ public class InGameDiffChanger : MonoBehaviour {
         {
             pSprint.sprintLoss = 0;
             pSprint.jumpLoss = 0;
+            pSprint.sprintJumpLoss = 0;
             pSprint.superJumpLoss = 0;
+        }
+        if (DifficultyModifier.rabbitVision == true) //not finished yet
+        {
+            playerCam.enabled = false;
+            bunnyVision.SetActive(true);
+        }
+        if (DifficultyModifier.extremeThirst == true)
+        {
+            pStatus.thirstDrainRate = 0.5f;
+        }
+        if (DifficultyModifier.starvationMode == true)
+        {
+            pStatus.hungerDrainRate = 0.3f;
+        }
+        if (DifficultyModifier.dieInOneHit == true)
+        {
+            pStatus.maxHealth = 1;
+            pStatus.health = 1;
+            pStatus.hpBar.maxValue = 1;
         }
 
         //===================================================
@@ -109,6 +185,13 @@ public class InGameDiffChanger : MonoBehaviour {
             for (int i = 0; i < wolves.Length; ++i)
             {
                 wolves[i].SetActive(false);
+            }
+        }
+        else if (DifficultyModifier.moreWolves == true) //otherwise if extra wolves are enabled
+        {
+            for (int i = 0; i < extraWolves.Length; ++i)
+            {
+                extraWolves[i].SetActive(true);
             }
         }
     }

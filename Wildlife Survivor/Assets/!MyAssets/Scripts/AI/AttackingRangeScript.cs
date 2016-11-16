@@ -21,7 +21,7 @@ public class AttackingRangeScript : MonoBehaviour {
         {
             if (wolfAI.aiState == WolfAI.AIState.Chasing)
             {
-                wolfAI.attackTimer = 3;
+                wolfAI.attackTimer = 1;
                 wolfAI.aiState = WolfAI.AIState.Attacking;
                 wolfAI.wolfSFX.clip = wolfAI.attackingSFX;
                 wolfAI.wolfSFX.Play();
@@ -29,6 +29,16 @@ public class AttackingRangeScript : MonoBehaviour {
         }
     }
 
+    void OnTriggerStay(Collider c)
+    {
+        if (c.tag == "Player" || c.tag == "PlayerStealth")
+        {
+            if (wolfAI.aiState == WolfAI.AIState.Attacking)
+            {
+                wolfAI.attackTimer = 1;
+            }
+        }
+    }
     
     void OnTriggerExit(Collider c)
     {
@@ -37,7 +47,7 @@ public class AttackingRangeScript : MonoBehaviour {
             if (wolfAI.aiState == WolfAI.AIState.Attacking && wolfAI.attackTimer <= 0)
             {
                 Debug.Log("Out of Range");
-                wolfAI.aiState = WolfAI.AIState.Chasing;
+                //wolfAI.aiState = WolfAI.AIState.Chasing;
             }
         }
     }

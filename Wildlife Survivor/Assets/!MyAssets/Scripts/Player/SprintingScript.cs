@@ -13,15 +13,20 @@ using System.Collections;
 public class SprintingScript : MonoBehaviour {
 
     public RigidbodyFirstPersonController fpsController;
+    private Rigidbody playerRigidBody;
     public PlayerStatus pStatus;
     public float stamina = 100;
     private float maxStamina = 100;
     public float sprintLoss = 15;
     public Slider stamBar;
     public float jumpLoss = 5;
+    public float sprintJumpLoss = 10;
     public float superJumpLoss = 15;
     public float standingRecovery = 25;
     public float walkingRecovery = 10;
+    //Based on difficulty, the user might not suffer from hunger or thirst. Certain movement techniques affect hunger and thirst and must be disabled when appropriate.
+    public bool noThirst = false;
+    public bool noHunger = false;
 
     public AudioSource footStepAud;
     public AudioSource footStepAudSprint;
@@ -31,8 +36,22 @@ public class SprintingScript : MonoBehaviour {
     public bool tiredOut = false;
 
 	// Use this for initialization
-	void Start () {
-	
+	void Start ()
+    {
+        playerRigidBody = GetComponent<Rigidbody>();
+
+        //Check first if we're on easy mode so that the thirst and hunger won't drain when jumping
+        //Otherwise, set thirst and hunger, based on custom difficulty settings
+        if (DifficultyModifier.difficulty == "easy")
+        {
+            noThirst = true;
+            noHunger = true;
+        }
+        else
+        {
+            noThirst = DifficultyModifier.noThirst;
+            noHunger = DifficultyModifier.noHunger;
+        }
 	}
 	
 	// Update is called once per frame
@@ -73,10 +92,13 @@ public class SprintingScript : MonoBehaviour {
             if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
             {
                 //Start running at the cost of using up stamina
-                if (pStatus.hunger < 100)
+                //if (pStatus.hunger < 100)
                 pStatus.hunger -= (pStatus.hungerDrainRate * 4) * Time.deltaTime;
                 pStatus.thirst -= (pStatus.thirstDrainRate * 2.5f) * Time.deltaTime;
-                stamina -= sprintLoss * Time.deltaTime;
+
+                //Only drain stamina while running on the ground
+                if (fpsController.Grounded == true)
+                    stamina -= sprintLoss * Time.deltaTime;
 
                 if (fpsController.Grounded == true)
                 {
@@ -137,6 +159,16 @@ public class SprintingScript : MonoBehaviour {
         if (fpsController.Grounded == true && Input.GetButtonDown("Jump") && Input.GetKey("c")) //Super Jump
         {            
             stamina -= superJumpLoss;
+        }
+        else if (fpsController.Grounded == true && Input.GetButtonDown("Jump")
+            && Input.GetKey("left shift") && Input.GetAxis("Vertical") > 0)//Long jump/dodge leap
+        {
+            stamina -= sprintJumpLoss;
+            playerRigidBody.AddRelativeForce(Vector3.forward * 5, ForceMode.VelocityChange);
+            if (noThirst == false)
+                pStatus.thirst -= 1;
+            if (noHunger == false)
+                pStatus.hunger -= 0.5f;
         }
         else if (fpsController.Grounded == true && Input.GetButtonDown("Jump")) //Jump
         {
