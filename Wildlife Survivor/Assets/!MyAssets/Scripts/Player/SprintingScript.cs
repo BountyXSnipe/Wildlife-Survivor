@@ -25,8 +25,8 @@ public class SprintingScript : MonoBehaviour {
     public float standingRecovery = 25;
     public float walkingRecovery = 10;
     //Based on difficulty, the user might not suffer from hunger or thirst. Certain movement techniques affect hunger and thirst and must be disabled when appropriate.
-    private bool noThirst;
-    private bool noHunger;
+    public bool noThirst = false;
+    public bool noHunger = false;
 
     public AudioSource footStepAud;
     public AudioSource footStepAudSprint;
@@ -39,8 +39,19 @@ public class SprintingScript : MonoBehaviour {
 	void Start ()
     {
         playerRigidBody = GetComponent<Rigidbody>();
-        noThirst = DifficultyModifier.noThirst;
-        noHunger = DifficultyModifier.noHunger;
+
+        //Check first if we're on easy mode so that the thirst and hunger won't drain when jumping
+        //Otherwise, set thirst and hunger, based on custom difficulty settings
+        if (DifficultyModifier.difficulty == "easy")
+        {
+            noThirst = true;
+            noHunger = true;
+        }
+        else
+        {
+            noThirst = DifficultyModifier.noThirst;
+            noHunger = DifficultyModifier.noHunger;
+        }
 	}
 	
 	// Update is called once per frame

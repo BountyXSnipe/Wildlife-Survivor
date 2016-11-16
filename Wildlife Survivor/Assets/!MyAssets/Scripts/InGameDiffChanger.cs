@@ -53,29 +53,44 @@ public class InGameDiffChanger : MonoBehaviour {
         //========
         //Check first if the player is in a premade difficulty mode before
         //doing custom changes
-        if (DifficultyModifier.difficulty == "easy")
+        if (DifficultyModifier.difficulty == "peaceful")
         {
-            RenderSettings.fog = false;
-            bunnyCompass.SetActive(true);
-            pStatus.thirstDrainRate = 0;
-            pStatus.thirst = 100;
-            pStatus.hungerDrainRate = 0;
-            pStatus.hunger = 100;
+            DifficultyModifier.dayTime = true;
+            DifficultyModifier.noFog = true;
+            DifficultyModifier.noWolves = true;
+            DifficultyModifier.noThirst = true;
+            DifficultyModifier.noHunger = true;
+            DifficultyModifier.noRabbitCompass = true;
+            DifficultyModifier.infiniteHealth = true;
+            DifficultyModifier.infiniteStamina = true;
+        }
+        else if (DifficultyModifier.difficulty == "easy")
+        {
+            DifficultyModifier.noFog = true;
+            DifficultyModifier.noThirst = true;
+            DifficultyModifier.noHunger = true;
+            DifficultyModifier.infiniteStamina = true;
         }
         else if (DifficultyModifier.difficulty == "medium")
         {
-            RenderSettings.fog = false;
+            DifficultyModifier.noFog = true;
         }
         else if (DifficultyModifier.difficulty == "hard")
         {
-            moon.enabled = false;
-            bunnyCompass.SetActive(false);
-            for (int i = 0; i < extraWolves.Length; ++i)
-            {
-                extraWolves[i].SetActive(true);
-            }
+            DifficultyModifier.noMoon = true;
+            DifficultyModifier.noRabbitCompass = true;
+            DifficultyModifier.moreWolves = true;
         }
-        //Otherwise, if the difficulty string doesn't match either of them, use custom difficulty settings
+        else if (DifficultyModifier.difficulty == "nightmare")
+        {
+            DifficultyModifier.noMoon = true;
+            DifficultyModifier.noRabbitCompass = true;
+            DifficultyModifier.moreWolves = true;
+            DifficultyModifier.extremeThirst = true;
+            DifficultyModifier.starvationMode = true;
+            DifficultyModifier.dieInOneHit = true;
+        }
+        //Apply difficulty changes based on what is toggled on from DifficultyModifier
 
         //Upon scene load, the game changes take place based
         //on what the user set in the custom difficulty options

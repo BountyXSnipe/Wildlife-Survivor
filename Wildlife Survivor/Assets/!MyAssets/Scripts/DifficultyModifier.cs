@@ -53,9 +53,26 @@ public class DifficultyModifier : MonoBehaviour {
     public Toggle moreWolvesTog;
 
     // Use this for initialization
-    void Start () {
-	
-	}
+    void Start ()
+    {
+        //Each time the player loads up the menu, the difficulty settings are reset
+        noHunger = false;
+        noThirst = false;
+        noFog = false;
+        noWolves = false;
+        dayTime = false;
+        infiniteHealth = false;
+        infiniteStamina = false;
+
+        noMoon = false;
+        noRabbitCompass = false;
+
+        starvationMode = false;
+        extremeThirst = false;
+        dieInOneHit = false;
+        noHealing = false;
+        moreWolves = false;
+    }
 
     // Update is called once per frame
     void Update()
